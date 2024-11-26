@@ -13,9 +13,9 @@ public class PathMover : MonoBehaviour
     private float roadOffSet = 0.7f;
     private void Awake()
     {
-        navmeshagent = GetComponent<NavMeshAgent>();
-        //FindAnyObjectByType<PathCreator>().OnNewPathCreated += SetPoints;
-        FindAnyObjectByType<RoadDrawer>().OnNewPathGenerated += SetPoints;
+        //navmeshagent = GetComponent<NavMeshAgent>();
+        ////FindAnyObjectByType<PathCreator>().OnNewPathCreated += SetPoints;
+        //FindAnyObjectByType<RoadDrawer>().OnNewPathGenerated += SetPoints;
     }
 
     private void SetPoints(IEnumerable<Vector3> points)
