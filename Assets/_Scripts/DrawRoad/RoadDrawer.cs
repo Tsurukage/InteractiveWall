@@ -12,7 +12,7 @@ public class RoadDrawer : MonoBehaviour
     List<Vector3> points = new(); // 记录的路径点
     bool isDrawing = false;
     public LineRenderer lineRenderer;
-    public RoadGenerator RoadGenerator;
+    public Camera DrawingCam;
     public event UnityAction<DrawingBoardInfo> OnDrawingEnd;
 
     public void OnStartDraw(Vector3 pos)
@@ -28,46 +28,66 @@ public class RoadDrawer : MonoBehaviour
         if (pos == Vector3.zero) return;
         // 只有当新点与上一个点的距离大于pointSpacing时才添加
         if (points.Count == 0 ||
-            Vector3.Distance(pos, points[^1]) >= pointSpacing)
+            Vector2.Distance(pos.ToXZ(), points[^1].ToXZ()) >= pointSpacing)
         {
             points.Add(pos);
             lineRenderer.positionCount = points.Count;
             lineRenderer.SetPosition(points.Count - 1, pos);
         }
     }
+    
     public void OnDrawEnd(Vector3 pos)
     {
         isDrawing = false;
         if (points.Count >= 2)
         {
-            var adjust = LineSimplifier.AdjustPathGridAngles(points.Select(p => p.ToXZInt()).ToList());
-            var smooth = LineSimplifier.GetSmoothPath(adjust.Select(v => new Vector2(v.x, v.y)).ToList());
-            var path = LineSimplifier.RamerDouglasPeucker(smooth.Select(v => new Vector3(v.x, pos.y, v.y)).ToList(), 1);
-            lineRenderer.positionCount = path.Count;
-            for (var i = 0; i < path.Count; i++)
-            {
-                var p = path[i];
-                lineRenderer.SetPosition(i, p);
-            }
-
+            //var smooth = LineSimplifier.GetSmoothPath(adjust.Select(v => new Vector2(v.x, v.y)).ToList());
+            //var path = LineSimplifier.RamerDouglasPeucker(smooth.Select(v => new Vector3(v.x, transform.position.y, v.y)).ToList(), 1);
+            //var adjust = LineSimplifier.AdjustPathGridAngles(info.Path.Select(p => p.ToXZInt()).ToList());
+            //var flatPoints = GetFlatPoints(points, Quaternion.Inverse(DrawingCam.transform.rotation), transform.position);
+            DrawLineRenderer(lineRenderer, points);
             lineRenderer.Simplify(1);
-            var info = GenerateInfoFromLineRenderer();
+            var info = GenerateInfoFromLineRenderer(lineRenderer);
             OnDrawingEnd?.Invoke(info);
             return;
         }
         Debug.LogWarning("路径点数量不足，无法生成道路。");
         isDrawing = false;
     }
-    [Button] public DrawingBoardInfo GenerateInfoFromLineRenderer()
+
+    void DrawLineRenderer(LineRenderer lr,List<Vector3> line)
     {
-        var y = points.First().y;
-        var path = new List<Vector3>();
-        for (int i = 0; i < lineRenderer.positionCount; i++)
+        lr.positionCount = line.Count;
+        for (var i = 0; i < line.Count; i++)
         {
-            var point = lineRenderer.GetPosition(i);
-            path.Add(point.ChangeY(y));
+            var p = line[i];
+            lr.SetPosition(i, p);
         }
-        return new DrawingBoardInfo(Index, transform, path);
+    }
+
+    List<Vector3> GetFlatPoints(List<Vector3> list,Quaternion rotation,Vector3 position)
+    {
+        var inversion = Quaternion.Inverse(rotation);
+        // Get the drawing board's rotation and position
+        var flatPoints = list.Select(p =>
+        {
+            var localPos = p - position;
+            var rotatePoint = inversion * localPos;
+            var worldPoint = rotatePoint + position;
+            return worldPoint;
+        }).ToList();
+        return flatPoints;
+    }
+
+    [Button] public DrawingBoardInfo GenerateInfoFromLineRenderer(LineRenderer lr)
+    {
+        var path = new List<Vector3>();
+        for (var i = 0; i < lr.positionCount; i++)
+        {
+            var point = lr.GetPosition(i);
+            path.Add(point);
+        }
+        return new (Index, transform, path);
     }
 }
 public record DrawingBoardInfo
@@ -86,11 +106,14 @@ public record DrawingBoardInfo
         Path = path;
         Index = index;
     }
-    public List<Vector3> GetCoordinatePath(Transform tran)
+    public List<Vector3> GetCoordinatePath(Transform tran) => GetCoordinatePath(tran,Path);
+
+    public List<Vector3> GetCoordinatePath(Transform tran, IList<Vector3> path)
     {
         var worldMatrix = WorldMatrix(tran.position, tran.lossyScale, tran.rotation);
-        return Path.Select(p => worldMatrix.MultiplyPoint3x4(p)).ToList();
+        return path.Select(p => worldMatrix.MultiplyPoint3x4(p)).ToList();
     }
+
     // 绘制板到世界地块的变换矩阵
     public Matrix4x4 WorldMatrix(Vector3 worldTilePosition, Vector3 worldTileScale, Quaternion worldTileRotation) =>
         Matrix4x4.TRS(worldTilePosition, worldTileRotation, worldTileScale) *

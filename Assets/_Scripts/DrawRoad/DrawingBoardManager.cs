@@ -48,6 +48,7 @@ public class DrawingBoardManager : MonoBehaviour
 
     void DrawStart(int id, RaycastHit hit)
     {
+        if (!hit.collider) return;
         // 根据触摸位置进行射线检测，确定被触摸的画板
         var roadDrawer = hit.collider.GetComponentInParent<RoadDrawer>();
         if (!roadDrawer) return;
