@@ -4,31 +4,34 @@ using GMVC.Utls;
 using GMVC.Views;
 using UnityEngine;
 using UnityEngine.UI;
+using Utls;
 
 public class DrawingBoardManager : MonoBehaviour
 {
+    public RayInputHandler RayInput;
+    public RoadGenerator RoadGenerator;
     [Header("画板设置")]
-    public int numberOfBoards = 6; // 需要的画板数量
     public RoadDrawer drawingBoardPrefab; // 画板预制体
     public Camera DrawingCam;
     public Transform DrawingArea;
     public HorizontalLayoutGroup layoutGroup; // 画板的布局组件
     public RectTransform[] uiFrames; // UI框的数组
     public List<RoadDrawer> drawingBoards;
-    public RayInputHandler RayInput;
     public RoadCircuit[] Circuits;
     Dictionary<int,RoadDrawer> touchMap = new();
     
-    void Start()
+    public void Init()
     {
         drawingBoardPrefab.Display(false);
         RayInput.OnDrawStart.AddListener(DrawStart);
         RayInput.OnDrawEnd.AddListener(DrawEnd);
         RayInput.OnDrawing.AddListener(Drawing);
+        RoadGenerator.Init(drawingBoards.Count);
         for (var i = 0; i < drawingBoards.Count; i++)
         {
             var board = drawingBoards[i];
             var circuit = Circuits[i];
+            circuit.Init(RoadGenerator);
             board.OnDrawingEnd += circuit.OnDrawEnd;
         }
     }
@@ -81,7 +84,7 @@ public class DrawingBoardManager : MonoBehaviour
                 Destroy(db);
             }
         }
-        for (var i = 0; i < numberOfBoards; i++)
+        for (var i = 0; i < uiFrames.Length; i++)
         {
             var board = Instantiate(drawingBoardPrefab, transform);
             board.Display(true);
@@ -94,7 +97,7 @@ public class DrawingBoardManager : MonoBehaviour
     // 对齐画板和UI框
     void AlignBoardsWithUI()
     {
-        for (var i = 0; i < numberOfBoards; i++)
+        for (var i = 0; i < uiFrames.Length; i++)
         {
             // 获取画板和对应的UI框
             var board = drawingBoards[i];

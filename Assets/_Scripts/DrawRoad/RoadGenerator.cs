@@ -23,28 +23,27 @@ public class RoadGenerator : MonoBehaviour
     public int RoadId = -1;
     public static ERRoadNetwork RoadNetwork { get; set; }
     public ERRoadType roadType;
-    public ERRoad road;
-    public event Action<DrawingBoardInfo> OnRoadGenerated;
-
-    void Start()
+    public ERRoad[] roads;
+    
+    public void Init(int roadCount)
     {
         // 定义道路类型
         roadType = new ERRoadType();
         roadType.roadWidth = roadWidth;
         roadType.roadMaterial = roadMaterial;
+        roads = new ERRoad[roadCount];
         RoadNetwork ??= new ERRoadNetwork();
     }
 
-    public void RemoveRoad()
+    public void RemoveRoad(int index)
     {
-        if (road != null)
-        {
-            Destroy(road.gameObject);
-            road = null;
-        }
+        var road = roads[index];
+        if (road == null) return;
+        Destroy(road.gameObject);
+        roads[index] = null;
     }
 
-    public ERRoad GenerateRoad(List<Vector3> path)
+    public ERRoad GenerateRoad(int index, List<Vector3> path)
     {
         if (path == null || path.Count < 2)
         {
@@ -52,12 +51,9 @@ public class RoadGenerator : MonoBehaviour
             return null;
         }
         // 移除现有的道路
-        RemoveRoad();
+        RemoveRoad(index);
         // 创建新道路
-        road = RoadNetwork.CreateRoad("Road_" + RoadId, roadType, path.ToArray());
-        return road;
-        road.gameObject.transform.localPosition = Vector3.zero;
-        // 构建道路网络
-        RoadNetwork.BuildRoadNetwork();
+        roads[index] = RoadNetwork.CreateRoad("Road_" + RoadId, roadType, path.ToArray());
+        return roads[index];
     }
 }

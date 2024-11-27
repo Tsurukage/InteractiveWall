@@ -29,7 +29,7 @@ namespace GMVC.Core
             IsRunning = false;
         }
 
-        public static void Run(Action onGameStartAction,AudioManager audioManager ,float startAfter = 0.5f)
+        public static void Run(Action onGameStartAction, AudioManager audioManager, float startAfter = 0.5f)
         {
             if (IsRunning) throw new NotImplementedException("App is running!");
             _app = new App();

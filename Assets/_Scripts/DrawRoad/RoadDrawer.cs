@@ -11,19 +11,30 @@ public class RoadDrawer : MonoBehaviour
     public float pointSpacing = 1f; // 路径点的最小间隔
     List<Vector3> points = new(); // 记录的路径点
     bool isDrawing = false;
+    public Material validMat;
+    public Material invalidMat;
     public LineRenderer lineRenderer;
-    public Camera DrawingCam;
+    bool invalidInput;
     public event UnityAction<DrawingBoardInfo> OnDrawingEnd;
 
     public void OnStartDraw(Vector3 pos)
     {
+        invalidInput = false;
         isDrawing = true;
         points.Clear();
         lineRenderer.positionCount = 0;
+        lineRenderer.material = validMat;
     }
     public void OnDrawing(RaycastHit hit)
     {
         if (!isDrawing) return;
+        if (!invalidInput)
+        {
+            invalidInput = hit.collider == null;
+            if (invalidInput && lineRenderer.material != invalidMat) 
+                lineRenderer.material = invalidMat;
+        }
+
         var pos = hit.point;
         if (pos == Vector3.zero) return;
         // 只有当新点与上一个点的距离大于pointSpacing时才添加
@@ -34,25 +45,25 @@ public class RoadDrawer : MonoBehaviour
             lineRenderer.positionCount = points.Count;
             lineRenderer.SetPosition(points.Count - 1, pos);
         }
+
     }
     
     public void OnDrawEnd(Vector3 pos)
     {
         isDrawing = false;
-        if (points.Count >= 2)
+        if (invalidInput || points.Count < 2)
         {
-            //var smooth = LineSimplifier.GetSmoothPath(adjust.Select(v => new Vector2(v.x, v.y)).ToList());
-            //var path = LineSimplifier.RamerDouglasPeucker(smooth.Select(v => new Vector3(v.x, transform.position.y, v.y)).ToList(), 1);
-            //var adjust = LineSimplifier.AdjustPathGridAngles(info.Path.Select(p => p.ToXZInt()).ToList());
-            //var flatPoints = GetFlatPoints(points, Quaternion.Inverse(DrawingCam.transform.rotation), transform.position);
-            DrawLineRenderer(lineRenderer, points);
-            lineRenderer.Simplify(1);
-            var info = GenerateInfoFromLineRenderer(lineRenderer);
-            OnDrawingEnd?.Invoke(info);
+            lineRenderer.positionCount = 0;
             return;
         }
-        Debug.LogWarning("路径点数量不足，无法生成道路。");
-        isDrawing = false;
+        //var smooth = LineSimplifier.GetSmoothPath(adjust.Select(v => new Vector2(v.x, v.y)).ToList());
+        //var path = LineSimplifier.RamerDouglasPeucker(smooth.Select(v => new Vector3(v.x, transform.position.y, v.y)).ToList(), 1);
+        //var adjust = LineSimplifier.AdjustPathGridAngles(info.Path.Select(p => p.ToXZInt()).ToList());
+        //var flatPoints = GetFlatPoints(points, Quaternion.Inverse(DrawingCam.transform.rotation), transform.position);
+        DrawLineRenderer(lineRenderer, points);
+        lineRenderer.Simplify(1);
+        var info = GenerateInfoFromLineRenderer(lineRenderer);
+        OnDrawingEnd?.Invoke(info);
     }
 
     void DrawLineRenderer(LineRenderer lr,List<Vector3> line)
