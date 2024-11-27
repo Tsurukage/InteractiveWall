@@ -72,15 +72,15 @@ public class RoadDrawer : MonoBehaviour
         var last = path.Last();
         // 检查路径是否闭合
         var isCycle = Vector3.Distance(first, last) < 1f;
+        var line = path.ToList();
         if (isCycle)
         {
-            path.Add(first);
-            path.Add(path[1]);
+            line.Add(first);
+            line.Add(path[1]);
         }
         // 更新 LineRenderer
-        DrawLineRenderer(lineRenderer, path);
-        //lineRenderer.Simplify(1);
-        var info = GenerateInfoFromLineRenderer(lineRenderer);
+        DrawLineRenderer(lineRenderer, line);
+        var info = new DrawingBoardInfo(Index, transform, path, line, isCycle);
         OnDrawingEnd?.Invoke(info);
     }
 
@@ -107,17 +107,6 @@ public class RoadDrawer : MonoBehaviour
         }).ToList();
         return flatPoints;
     }
-
-    [Button] public DrawingBoardInfo GenerateInfoFromLineRenderer(LineRenderer lr)
-    {
-        var path = new List<Vector3>();
-        for (var i = 0; i < lr.positionCount; i++)
-        {
-            var point = lr.GetPosition(i);
-            path.Add(point);
-        }
-        return new (Index, transform, path);
-    }
 }
 public record DrawingBoardInfo
 {
@@ -126,13 +115,17 @@ public record DrawingBoardInfo
     public Vector3 Scale;
     public Quaternion Rotation;
     public IList<Vector3> Path;
+    public IList<Vector3> Line;
+    public bool IsCycle;
 
-    public DrawingBoardInfo(int index,Transform tran,IList<Vector3> path)
+    public DrawingBoardInfo(int index,Transform tran,IList<Vector3> path, IList<Vector3> line, bool isCycle)
     {
         Position = tran.position;
         Scale = tran.lossyScale;
         Rotation = tran.rotation;
         Path = path;
+        Line = line;
+        IsCycle = isCycle;
         Index = index;
     }
     public List<Vector3> GetCoordinatePath(Transform tran) => GetCoordinatePath(tran,Path);
