@@ -15,17 +15,26 @@ public class PathMover : MonoBehaviour
     private float roadOffSet = 0.7f;
     private void Awake()
     {
-        //navmeshagent = GetComponent<NavMeshAgent>();
-        //FindAnyObjectByType<PathCreator>().OnNewPathCreated += SetPoints;
+        navmeshagent = GetComponent<NavMeshAgent>();
         //var pathGenerator = FindAnyObjectByType<RoadDrawer>();
+        //pathGenerator.OnDrawingEnd += SetPoints;
         //pathGenerator.OnNewPathGenerated += SetPoints;
     }
-
-    private void SetPoints(IEnumerable<Vector3> points)
+    public void SetPoint(List<Vector3> path)
     {
         originalPath.Clear();
 
-        foreach (var point in points)
+        foreach (var point in path)
+        {
+            originalPath.Add(point);
+        }
+        SetPathPoint(originalPath);
+    }
+
+    private void SetPoints(DrawingBoardInfo points)
+    {
+        var pts = points.Path.ToList();
+        foreach (var point in pts)
         {
             originalPath.Add(point);
         }
@@ -125,4 +134,5 @@ public class PathMover : MonoBehaviour
         Debug.Log($"hasPath = {hasPath}, distance = {navmeshagent.remainingDistance}");
         return hasPathPoints && (!hasPath || isClose);
     }
+
 }
