@@ -233,7 +233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Index: 3
-  pointSpacing: 0.3
+  pointSpacing: 0.15
   validMat: {fileID: 2100000, guid: d98617cbb46de27448cfe8c1ca1ca260, type: 2}
   invalidMat: {fileID: 2100000, guid: b6195486cfa31624cad7f109bb275002, type: 2}
   lineRenderer: {fileID: 1243161153}
@@ -407,7 +407,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Index: 1
-  pointSpacing: 0.3
+  pointSpacing: 0.15
   validMat: {fileID: 2100000, guid: d98617cbb46de27448cfe8c1ca1ca260, type: 2}
   invalidMat: {fileID: 2100000, guid: b6195486cfa31624cad7f109bb275002, type: 2}
   lineRenderer: {fileID: 1115124539}
@@ -1182,7 +1182,7 @@ LineRenderer:
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.3
+    widthMultiplier: 0.4
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -1388,7 +1388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Index: 2
-  pointSpacing: 0.3
+  pointSpacing: 0.15
   validMat: {fileID: 2100000, guid: d98617cbb46de27448cfe8c1ca1ca260, type: 2}
   invalidMat: {fileID: 2100000, guid: b6195486cfa31624cad7f109bb275002, type: 2}
   lineRenderer: {fileID: 201933790}
@@ -1469,7 +1469,7 @@ LineRenderer:
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.3
+    widthMultiplier: 0.4
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -2478,7 +2478,7 @@ LineRenderer:
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.3
+    widthMultiplier: 0.4
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -3707,7 +3707,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Index: 4
-  pointSpacing: 0.3
+  pointSpacing: 0.15
   validMat: {fileID: 2100000, guid: d98617cbb46de27448cfe8c1ca1ca260, type: 2}
   invalidMat: {fileID: 2100000, guid: b6195486cfa31624cad7f109bb275002, type: 2}
   lineRenderer: {fileID: 265874490}
@@ -4370,7 +4370,7 @@ LineRenderer:
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.3
+    widthMultiplier: 0.4
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -5065,7 +5065,7 @@ LineRenderer:
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.3
+    widthMultiplier: 0.4
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -5486,7 +5486,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Index: 5
-  pointSpacing: 0.3
+  pointSpacing: 0.15
   validMat: {fileID: 2100000, guid: d98617cbb46de27448cfe8c1ca1ca260, type: 2}
   invalidMat: {fileID: 2100000, guid: b6195486cfa31624cad7f109bb275002, type: 2}
   lineRenderer: {fileID: 1912185978}
@@ -6684,7 +6684,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Index: 0
-  pointSpacing: 0.3
+  pointSpacing: 0.15
   validMat: {fileID: 2100000, guid: d98617cbb46de27448cfe8c1ca1ca260, type: 2}
   invalidMat: {fileID: 2100000, guid: b6195486cfa31624cad7f109bb275002, type: 2}
   lineRenderer: {fileID: 553510731}
@@ -7741,7 +7741,7 @@ LineRenderer:
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.3
+    widthMultiplier: 0.4
     widthCurve:
       serializedVersion: 2
       m_Curve:

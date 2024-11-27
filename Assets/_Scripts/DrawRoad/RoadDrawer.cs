@@ -56,12 +56,30 @@ public class RoadDrawer : MonoBehaviour
             lineRenderer.positionCount = 0;
             return;
         }
-        //var smooth = LineSimplifier.GetSmoothPath(adjust.Select(v => new Vector2(v.x, v.y)).ToList());
-        //var path = LineSimplifier.RamerDouglasPeucker(smooth.Select(v => new Vector3(v.x, transform.position.y, v.y)).ToList(), 1);
-        //var adjust = LineSimplifier.AdjustPathGridAngles(info.Path.Select(p => p.ToXZInt()).ToList());
-        //var flatPoints = GetFlatPoints(points, Quaternion.Inverse(DrawingCam.transform.rotation), transform.position);
-        DrawLineRenderer(lineRenderer, points);
-        lineRenderer.Simplify(1);
+        // 使用 Ramer-Douglas-Peucker 算法简化路径
+        //var simplifiedPoints = LineSimplifier.RamerDouglasPeucker3D(points, 1f);
+
+        //// 如果您有网格，可以将路径点转换为网格坐标（Vector3Int）
+        //var gridPositions = simplifiedPoints.Select(WorldToGridPosition).ToList();
+        //
+        //// 调整路径中的尖角
+        //var adjustedGridPositions = LineSimplifier.AdjustPathGridAngles3D(gridPositions);
+        //
+        //// 将网格坐标转换回世界坐标
+        //var adjustedPoints = adjustedGridPositions.Select(GridToWorldPosition).ToList();
+        var path = points.ToList();
+        var first = path.First();
+        var last = path.Last();
+        // 检查路径是否闭合
+        var isCycle = Vector3.Distance(first, last) < 1f;
+        if (isCycle)
+        {
+            path.Add(first);
+            path.Add(path[1]);
+        }
+        // 更新 LineRenderer
+        DrawLineRenderer(lineRenderer, path);
+        //lineRenderer.Simplify(1);
         var info = GenerateInfoFromLineRenderer(lineRenderer);
         OnDrawingEnd?.Invoke(info);
     }
