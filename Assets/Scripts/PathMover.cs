@@ -7,6 +7,7 @@ using UnityEngine.AI;
 public class PathMover : MonoBehaviour
 {
     private NavMeshAgent navmeshagent;
+    [SerializeField] private NavMeshSurface navMeshSurface;
     public Queue<Vector3> pathPoints = new Queue<Vector3>();
     public List<Vector3> originalPath = new List<Vector3>();
 
@@ -91,7 +92,8 @@ public class PathMover : MonoBehaviour
         }
         Vector3 startPoint = pathPoints.Peek();
         //transform.position = startPoint;
-        navmeshagent.Warp(startPoint);
+        if(navmeshagent.agentTypeID == navMeshSurface.agentTypeID)
+            this.navmeshagent.Warp(startPoint);
         transform.rotation = GetForwardDirection();
     }
 
