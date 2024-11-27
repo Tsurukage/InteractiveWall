@@ -425,6 +425,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3153906438662449289, guid: c3ebe9d4cf40afc43b4d8765aa3791a2, type: 3}
+      propertyPath: navmeshSurface
+      value: 
+      objectReference: {fileID: 1513043191}
+    - target: {fileID: 3746088417486371038, guid: c3ebe9d4cf40afc43b4d8765aa3791a2, type: 3}
+      propertyPath: m_AgentTypeID
+      value: 65107623
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -741,6 +749,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3153906438662449289, guid: c3ebe9d4cf40afc43b4d8765aa3791a2, type: 3}
+      propertyPath: navmeshSurface
+      value: 
+      objectReference: {fileID: 1901961988}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1288,7 +1300,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AgentTypeID: 0
+  m_AgentTypeID: 658490984
   m_CollectObjects: 2
   m_Size: {x: 10, y: 10, z: 10}
   m_Center: {x: 0, y: 2, z: 0}
@@ -1296,7 +1308,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_UseGeometry: 0
-  m_DefaultArea: 0
+  m_DefaultArea: 6
   m_GenerateLinks: 0
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
@@ -2316,6 +2328,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3153906438662449289, guid: c3ebe9d4cf40afc43b4d8765aa3791a2, type: 3}
+      propertyPath: navmeshSurface
+      value: 
+      objectReference: {fileID: 193881168}
+    - target: {fileID: 3746088417486371038, guid: c3ebe9d4cf40afc43b4d8765aa3791a2, type: 3}
+      propertyPath: m_AgentTypeID
+      value: 658490984
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3075,7 +3095,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AgentTypeID: 0
+  m_AgentTypeID: -629701670
   m_CollectObjects: 2
   m_Size: {x: 10, y: 10, z: 10}
   m_Center: {x: 0, y: 2, z: 0}
@@ -3083,7 +3103,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_UseGeometry: 0
-  m_DefaultArea: 0
+  m_DefaultArea: 8
   m_GenerateLinks: 0
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
@@ -3438,7 +3458,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1066407508396690586, guid: c3ebe9d4cf40afc43b4d8765aa3791a2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2928290230701504563, guid: c3ebe9d4cf40afc43b4d8765aa3791a2, type: 3}
       propertyPath: m_LocalScale.x
@@ -3487,6 +3507,14 @@ PrefabInstance:
     - target: {fileID: 2928290230701504563, guid: c3ebe9d4cf40afc43b4d8765aa3791a2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3153906438662449289, guid: c3ebe9d4cf40afc43b4d8765aa3791a2, type: 3}
+      propertyPath: navmeshSurface
+      value: 
+      objectReference: {fileID: 618945169}
+    - target: {fileID: 3746088417486371038, guid: c3ebe9d4cf40afc43b4d8765aa3791a2, type: 3}
+      propertyPath: m_AgentTypeID
+      value: -629701670
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4988,7 +5016,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AgentTypeID: 0
+  m_AgentTypeID: 287145453
   m_CollectObjects: 2
   m_Size: {x: 10, y: 10, z: 10}
   m_Center: {x: 0, y: 2, z: 0}
@@ -4996,7 +5024,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_UseGeometry: 0
-  m_DefaultArea: 0
+  m_DefaultArea: 5
   m_GenerateLinks: 0
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
@@ -5330,7 +5358,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1066407508396690586, guid: c3ebe9d4cf40afc43b4d8765aa3791a2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2928290230701504563, guid: c3ebe9d4cf40afc43b4d8765aa3791a2, type: 3}
       propertyPath: m_LocalScale.x
@@ -5379,6 +5407,14 @@ PrefabInstance:
     - target: {fileID: 2928290230701504563, guid: c3ebe9d4cf40afc43b4d8765aa3791a2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3153906438662449289, guid: c3ebe9d4cf40afc43b4d8765aa3791a2, type: 3}
+      propertyPath: navmeshSurface
+      value: 
+      objectReference: {fileID: 1184429392}
+    - target: {fileID: 3746088417486371038, guid: c3ebe9d4cf40afc43b4d8765aa3791a2, type: 3}
+      propertyPath: m_AgentTypeID
+      value: 287145453
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7391,7 +7427,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AgentTypeID: 0
+  m_AgentTypeID: 65107623
   m_CollectObjects: 2
   m_Size: {x: 10, y: 10, z: 10}
   m_Center: {x: 0, y: 2, z: 0}
@@ -7399,7 +7435,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_UseGeometry: 0
-  m_DefaultArea: 0
+  m_DefaultArea: 7
   m_GenerateLinks: 0
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
@@ -7529,7 +7565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AgentTypeID: 0
+  m_AgentTypeID: -902729914
   m_CollectObjects: 2
   m_Size: {x: 10, y: 10, z: 10}
   m_Center: {x: 0, y: 2, z: 0}
@@ -7537,7 +7573,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_UseGeometry: 0
-  m_DefaultArea: 0
+  m_DefaultArea: 4
   m_GenerateLinks: 0
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
@@ -7562,7 +7598,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1066407508396690586, guid: c3ebe9d4cf40afc43b4d8765aa3791a2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2928290230701504563, guid: c3ebe9d4cf40afc43b4d8765aa3791a2, type: 3}
       propertyPath: m_LocalScale.x
@@ -7611,6 +7647,14 @@ PrefabInstance:
     - target: {fileID: 2928290230701504563, guid: c3ebe9d4cf40afc43b4d8765aa3791a2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3153906438662449289, guid: c3ebe9d4cf40afc43b4d8765aa3791a2, type: 3}
+      propertyPath: navmeshSurface
+      value: 
+      objectReference: {fileID: 1529082183}
+    - target: {fileID: 3746088417486371038, guid: c3ebe9d4cf40afc43b4d8765aa3791a2, type: 3}
+      propertyPath: m_AgentTypeID
+      value: -902729914
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8325,7 +8369,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_UseGeometry: 0
-  m_DefaultArea: 0
+  m_DefaultArea: 3
   m_GenerateLinks: 0
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1

@@ -1,7 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -16,6 +15,10 @@ public class PathMover : MonoBehaviour
     private void Awake()
     {
         navmeshagent = GetComponent<NavMeshAgent>();
+        if (NavMesh.SamplePosition(transform.position, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
+        {
+            navmeshagent.Warp(hit.position);
+        }
         //var pathGenerator = FindAnyObjectByType<RoadDrawer>();
         //pathGenerator.OnDrawingEnd += SetPoints;
         //pathGenerator.OnNewPathGenerated += SetPoints;
@@ -31,16 +34,6 @@ public class PathMover : MonoBehaviour
         SetPathPoint(originalPath);
     }
 
-    private void SetPoints(DrawingBoardInfo points)
-    {
-        var pts = points.Path.ToList();
-        foreach (var point in pts)
-        {
-            originalPath.Add(point);
-        }
-        //originalPath.Add(originalPath.First()); //For circle circuit (FTM)
-        SetPathPoint(originalPath);
-    }
     private void Update()
     {
         UpdatePathing();
@@ -97,7 +90,8 @@ public class PathMover : MonoBehaviour
             pathPoints.Enqueue(point);
         }
         Vector3 startPoint = pathPoints.Peek();
-        transform.position = startPoint;
+        //transform.position = startPoint;
+        navmeshagent.Warp(startPoint);
         transform.rotation = GetForwardDirection();
     }
 
