@@ -108,6 +108,7 @@ public class RoadDrawer : MonoBehaviour
         return flatPoints;
     }
 }
+
 public record DrawingBoardInfo
 {
     public int Index;
@@ -128,16 +129,20 @@ public record DrawingBoardInfo
         IsCycle = isCycle;
         Index = index;
     }
-    public List<Vector3> GetCoordinatePath(Transform tran) => GetCoordinatePath(tran,Path);
 
-    public List<Vector3> GetCoordinatePath(Transform tran, IList<Vector3> path)
+    public List<Vector3> GetCoordinatePath(Transform target) =>
+        GetCoordinatePath(target, Path, Position, Rotation, Scale);
+
+    public static List<Vector3> GetCoordinatePath(Transform target, IList<Vector3> path, Vector3 position,
+        Quaternion rotation, Vector3 scale)
     {
-        var worldMatrix = WorldMatrix(tran.position, tran.lossyScale, tran.rotation);
+        var worldMatrix = WorldMatrix(target.position, target.lossyScale, target.rotation, position, rotation, scale);
         return path.Select(p => worldMatrix.MultiplyPoint3x4(p)).ToList();
     }
 
     // 绘制板到世界地块的变换矩阵
-    public Matrix4x4 WorldMatrix(Vector3 worldTilePosition, Vector3 worldTileScale, Quaternion worldTileRotation) =>
+    public static Matrix4x4 WorldMatrix(Vector3 worldTilePosition, Vector3 worldTileScale, Quaternion worldTileRotation,
+        Vector3 position, Quaternion rotation, Vector3 scale) =>
         Matrix4x4.TRS(worldTilePosition, worldTileRotation, worldTileScale) *
-        Matrix4x4.TRS(Position, Rotation, Scale).inverse;
+        Matrix4x4.TRS(position, rotation, scale).inverse;
 }

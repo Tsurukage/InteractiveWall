@@ -105,9 +105,8 @@ public class DrawingBoardManager : MonoBehaviour
 
             // 将画板的位置对齐到UI框的位置
             var screenPos = uiFrame.position;
-            var worldPos =
-                DrawingCam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, DrawingCam.nearClipPlane + 5)); // 根据需要调整Z值
-            board.transform.position = new Vector3(worldPos.x, DrawingArea.position.y, board.transform.position.z);
+            var worldPos = DrawingCam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, 0)); // 根据需要调整Z值
+            board.transform.position = uiFrame.position;
         }
     }
 }
