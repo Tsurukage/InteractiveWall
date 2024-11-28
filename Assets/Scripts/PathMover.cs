@@ -124,8 +124,6 @@ public class PathMover : MonoBehaviour
         var hasPathPoints = pathPoints.Count > 0;
         var hasPath = navmeshagent.hasPath;
         var isClose = navmeshagent.remainingDistance < 0.5f;
-        Debug.Log($"hasPath = {hasPath}, distance = {navmeshagent.remainingDistance}");
         return hasPathPoints && (!hasPath || isClose);
     }
-
 }
