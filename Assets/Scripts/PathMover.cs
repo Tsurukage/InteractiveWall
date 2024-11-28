@@ -20,9 +20,6 @@ public class PathMover : MonoBehaviour
         {
             navmeshagent.Warp(hit.position);
         }
-        //var pathGenerator = FindAnyObjectByType<RoadDrawer>();
-        //pathGenerator.OnDrawingEnd += SetPoints;
-        //pathGenerator.OnNewPathGenerated += SetPoints;
     }
     public void SetPoint(List<Vector3> path)
     {
@@ -93,7 +90,7 @@ public class PathMover : MonoBehaviour
         Vector3 startPoint = pathPoints.Peek();
         //transform.position = startPoint;
         if(navmeshagent.agentTypeID == navMeshSurface.agentTypeID)
-            this.navmeshagent.Warp(startPoint);
+            navmeshagent.Warp(startPoint);
         transform.rotation = GetForwardDirection();
     }
 
