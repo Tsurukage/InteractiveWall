@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Sirenix.OdinInspector;
+using GMVC.Core;
 using UnityEngine;
 using UnityEngine.Events;
 using Utls;
@@ -35,6 +35,12 @@ public class RoadDrawer : MonoBehaviour
                 lineRenderer.material = invalidMat;
         }
 
+        if (App.Setting.GenerateCutPathOnError && invalidInput)
+        {
+            OnGeneratePathPoints();
+            return;
+        }
+
         var pos = hit.point;
         if (pos == Vector3.zero) return;
         // 只有当新点与上一个点的距离大于pointSpacing时才添加
@@ -49,25 +55,16 @@ public class RoadDrawer : MonoBehaviour
         lineRenderer.SetPosition(index, pos);
     }
     
-    public void OnDrawEnd(Vector3 pos)
+    public void OnDrawEnd(Vector3 pos) => OnGeneratePathPoints();
+
+    void OnGeneratePathPoints()
     {
         isDrawing = false;
-        if (invalidInput || points.Count < 2)
+        if (points.Count < 2)
         {
             lineRenderer.positionCount = 0;
             return;
         }
-        // 使用 Ramer-Douglas-Peucker 算法简化路径
-        //var simplifiedPoints = LineSimplifier.RamerDouglasPeucker3D(points, 1f);
-
-        //// 如果您有网格，可以将路径点转换为网格坐标（Vector3Int）
-        //var gridPositions = simplifiedPoints.Select(WorldToGridPosition).ToList();
-        //
-        //// 调整路径中的尖角
-        //var adjustedGridPositions = LineSimplifier.AdjustPathGridAngles3D(gridPositions);
-        //
-        //// 将网格坐标转换回世界坐标
-        //var adjustedPoints = adjustedGridPositions.Select(GridToWorldPosition).ToList();
         var path = points.ToList();
         var first = path.First();
         var last = path.Last();

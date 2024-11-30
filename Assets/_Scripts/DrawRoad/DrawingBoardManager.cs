@@ -34,8 +34,13 @@ public class DrawingBoardManager : MonoBehaviour
             circuit.Init(RoadGenerator);
             board.OnDrawingEnd += circuit.OnDrawEnd;
         }
+        Activate(false);
     }
-
+    public void Activate(bool enable)
+    {
+        RayInput.enableInput = enable;
+        AlignBoardsWithUI();
+    }
     void Drawing(int id, RaycastHit hit)
     {
         if (!touchMap.TryGetValue(id, out var roadDrawer)) return;
@@ -95,7 +100,7 @@ public class DrawingBoardManager : MonoBehaviour
     }
 
     // 对齐画板和UI框
-    void AlignBoardsWithUI()
+    public void AlignBoardsWithUI()
     {
         for (var i = 0; i < uiFrames.Length; i++)
         {

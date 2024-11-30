@@ -7,10 +7,15 @@ namespace GMVC.Core
 {
     public class App
     {
+        public const string Game_Save = "Game_Save";
+        public const string Game_Start = "Game_Start";
+        public const string DrawingBoard_Align = "DrawingBoard_Align";
         public const string DrawingBoard_Activation = "DrawingBoard_Activation";
+        public const string Pref_Settings = "Pref_Settings";
         static MonoService _monoService;
         static bool IsRunning { get; set; }
         static ControllerServiceContainer ServiceContainer { get; set; }
+
         public static T GetController<T>() where T : class, IController => ServiceContainer.Get<T>();
         public static MessagingManager MessagingManager { get; private set; } 
         public static MainThreadDispatcher MainThread { get; private set; }
@@ -24,7 +29,7 @@ namespace GMVC.Core
                 return _monoService;
             }
         }
-
+        public static AppSetting Setting { get; private set; }
         public static World World { get; set; }
         public static void End()
         {
@@ -32,11 +37,12 @@ namespace GMVC.Core
         }
 
         public static void Run(Action onGameStartAction, World world, AudioManager audioManager,
-            MainThreadDispatcher mainThreadDispatcher, float startAfter = 0.5f)
+            MainThreadDispatcher mainThreadDispatcher, AppSetting settings, float startAfter = 0.5f)
         {
             if (IsRunning) throw new NotImplementedException("App is running!");
             IsRunning = true;
             MessagingManager = new MessagingManager();
+            Setting = settings;
             World = world;
             MainThread = mainThreadDispatcher;
             AudioManager = audioManager;
@@ -48,6 +54,7 @@ namespace GMVC.Core
             void ControllerReg()
             {
                 ServiceContainer = new ControllerServiceContainer();
+                ServiceContainer.Reg(new GameController());
             }
 
             void RegEvents()

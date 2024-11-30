@@ -17,7 +17,18 @@ public class World
     public void DrawingBoard_Enable(bool enable)
     {
         IsDrawingBoardActive = enable;
-        DrawingBoard.Display(enable);
+        DrawingBoard.Activate(enable);
         App.SendEvent(App.DrawingBoard_Activation);
+    }
+
+    public void StartGame()
+    {
+        DrawingBoard_Enable(true);
+        App.SendEvent(App.Game_Start);
+    }
+
+    public void AlignDrawingBoard()
+    {
+        DrawingBoard.AlignBoardsWithUI();
     }
 }
