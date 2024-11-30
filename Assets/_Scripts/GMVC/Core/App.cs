@@ -7,12 +7,13 @@ namespace GMVC.Core
 {
     public class App
     {
+        public const string DrawingBoard_Activation = "DrawingBoard_Activation";
         static MonoService _monoService;
         static bool IsRunning { get; set; }
         static ControllerServiceContainer ServiceContainer { get; set; }
         public static T GetController<T>() where T : class, IController => ServiceContainer.Get<T>();
         public static MessagingManager MessagingManager { get; private set; } 
-        public static IMainThreadDispatcher MainThread { get; private set; }
+        public static MainThreadDispatcher MainThread { get; private set; }
         public static AudioManager AudioManager { get; private set; }
         public static MonoService MonoService
         {
@@ -23,19 +24,21 @@ namespace GMVC.Core
                 return _monoService;
             }
         }
-        static App _app;
+
+        public static World World { get; set; }
         public static void End()
         {
             IsRunning = false;
         }
 
-        public static void Run(Action onGameStartAction, AudioManager audioManager, float startAfter = 0.5f)
+        public static void Run(Action onGameStartAction, World world, AudioManager audioManager,
+            MainThreadDispatcher mainThreadDispatcher, float startAfter = 0.5f)
         {
             if (IsRunning) throw new NotImplementedException("App is running!");
-            _app = new App();
             IsRunning = true;
             MessagingManager = new MessagingManager();
-            MainThread = MonoService.gameObject.AddComponent<MainThreadDispatcher>();
+            World = world;
+            MainThread = mainThreadDispatcher;
             AudioManager = audioManager;
             ControllerReg();
             RegEvents();
@@ -79,6 +82,19 @@ namespace GMVC.Core
         {
             if (coroutine == null) return;
             _monoService.StopCoroutine(coroutine);
+        }
+        public static void Pause(bool pause)
+        {
+            if (pause)
+            {
+                Time.timeScale = 0;
+                AudioManager.MuteAll(true);
+            }
+            else
+            {
+                Time.timeScale = 1;
+                AudioManager.MuteAll(false);
+            }
         }
     }
 }

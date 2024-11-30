@@ -38,14 +38,15 @@ public class RoadDrawer : MonoBehaviour
         var pos = hit.point;
         if (pos == Vector3.zero) return;
         // 只有当新点与上一个点的距离大于pointSpacing时才添加
-        if (points.Count == 0 ||
-            Vector2.Distance(pos.ToXZ(), points[^1].ToXZ()) >= pointSpacing)
+        if (points.Count >= 1)
         {
-            points.Add(pos);
-            lineRenderer.positionCount = points.Count;
-            lineRenderer.SetPosition(points.Count - 1, pos);
+            if (Vector2.Distance(pos.ToXZ(), points.Last().ToXZ()) < pointSpacing) return;
         }
 
+        points.Add(pos);
+        var index = lineRenderer.positionCount;
+        lineRenderer.positionCount = points.Count;
+        lineRenderer.SetPosition(index, pos);
     }
     
     public void OnDrawEnd(Vector3 pos)
