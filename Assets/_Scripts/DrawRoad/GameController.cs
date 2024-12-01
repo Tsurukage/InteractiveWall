@@ -33,6 +33,12 @@ public class GameController : IController
         App.Setting.GenerateCutPathOnError = enable;
         SaveSettings();
     }
+    public void ResetDrawingPadUi()
+    {
+        App.Setting.DrawingPadAlign = 0;
+        SaveSettings();
+        AlignDrawingPad();
+    }
     static void SaveSettings()
     {
         var json = Json.Serialize(App.Setting);

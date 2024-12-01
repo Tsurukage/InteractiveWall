@@ -14,6 +14,7 @@ public class Page_Settings : PageUiBase
     public Page_Settings(IView v, bool display = false) : base(v, display)
     {
         view_DrawingPad = new View_DrawingPad(v.Get<View>("view_drawingPad"), () => view_menu?.Show(),
+            GameController.ResetDrawingPadUi,
             GameController.ToggleRoadDraw, GameController.ToggleErrorCutDraw);
         view_Calibration = new View_Calibration(v.Get<View>("view_calibration"), ()=>view_menu?.Show());
         view_menu = new View_Menu(v.Get<View>("view_menu"), GameController.StartGame, view_Calibration.Show, view_DrawingPad.Show);
@@ -50,10 +51,11 @@ public class Page_Settings : PageUiBase
         Button btn_x;
         Button btn_uiUp;
         Button btn_uiDown;
+        Button btn_reset;
         Toggle toggle_road;
         Toggle toggle_errorCut;
 
-        public View_DrawingPad(IView v,UnityAction onCloseAction,
+        public View_DrawingPad(IView v,UnityAction onCloseAction,UnityAction onResetAction,
             UnityAction<bool> onToggleRoadAction,
             UnityAction<bool> onToggleErrorCutAction) : base(v, false)
         {
@@ -62,6 +64,8 @@ public class Page_Settings : PageUiBase
             btn_uiDown = v.Get<Button>("btn_uiDown");
             toggle_road = v.Get<Toggle>("toggle_road");
             toggle_errorCut = v.Get<Toggle>("toggle_errorCut");
+            btn_reset = v.Get<Button>("btn_reset");
+            btn_reset.onClick.AddListener(onResetAction);
             toggle_road.onValueChanged.AddListener(onToggleRoadAction);
             toggle_errorCut.onValueChanged.AddListener(onToggleErrorCutAction);
             btn_x.onClick.AddListener(() =>
