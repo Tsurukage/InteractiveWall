@@ -9706,7 +9706,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 160a4bf4f339fad4996cf5644239b717, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  originalPath: []
+  navmeshagent: {fileID: 3746088417486371038}
+  navMeshSurface: {fileID: 0}
   roadOffSet: 0
 --- !u!195 &3746088417486371038
 NavMeshAgent:

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.AI.Navigation;
@@ -6,124 +7,70 @@ using UnityEngine.AI;
 
 public class PathMover : MonoBehaviour
 {
-    private NavMeshAgent navmeshagent;
-    [SerializeField] private NavMeshSurface navMeshSurface;
-    public Queue<Vector3> pathPoints = new Queue<Vector3>();
-    public List<Vector3> originalPath = new List<Vector3>();
+    public NavMeshAgent navmeshagent;
+    [SerializeField] NavMeshSurface navMeshSurface;
+    Coroutine moveCoroutine;
+    [SerializeField] float roadOffSet = 0.7f;
+    [SerializeField] float rotationSpeed = 5f;
 
-    [SerializeField]
-    private float roadOffSet = 0.7f;
-    private void Awake()
+    void Awake()
     {
-        navmeshagent = GetComponent<NavMeshAgent>();
-        if (NavMesh.SamplePosition(transform.position, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
+        if (NavMesh.SamplePosition(transform.position, out var hit, 1.0f, NavMesh.AllAreas))
         {
             navmeshagent.Warp(hit.position);
         }
-    }
-    public void SetPoint(List<Vector3> path)
-    {
-        originalPath.Clear();
-
-        foreach (var point in path)
-        {
-            originalPath.Add(point);
-        }
-        SetPathPoint(originalPath);
+        // 禁用自动旋转
+        navmeshagent.updateRotation = false;
     }
 
-    private void Update()
-    {
-        UpdatePathing();
-    }
-
-    private void UpdatePathing()
-    {
-        if(originalPath.Count <2)
-            return;
-        if (ShouldSetNextCheckPoint())
-        {
-            ApplyNextCheckpoint();
-            return;
-        }
-
-        if(pathPoints.Any())
-            return;
-        // If no more points, loop back to the original path
-        ProceedFinalization();
-    }
-
-    private void ProceedFinalization()
-    {
-        var firstPos = originalPath.First();
-        var lastPos = originalPath.Last();
-        var isCircle = Vector3.Distance(lastPos, firstPos) < 1f;
-        if (isCircle)
-        {
-            SetPathPoint(originalPath);
-            return;
-        }
-        //Stop loop for non-circle path
-        StopPathMover();
-    }
-    private void ApplyNextCheckpoint()
-    {
-        // Set the next destination
-        Vector3 nextPoint = pathPoints.Dequeue();
-        Vector3 offsetPoint = ApplyOffset(nextPoint, GetNextDirection());
-        navmeshagent.SetDestination(offsetPoint);
-    }
-
-    void StopPathMover()
+    public void SetPoint(List<Vector3> path, bool isCircle)
     {
         navmeshagent.ResetPath();
-        pathPoints.Clear();
-    }
-
-    void SetPathPoint(List<Vector3> points)
-    {
-        StopPathMover();
-        foreach (var point in points)
-        {
-            pathPoints.Enqueue(point);
-        }
-        Vector3 startPoint = pathPoints.Peek();
-        //transform.position = startPoint;
-        if(navmeshagent.agentTypeID == navMeshSurface.agentTypeID)
+        var startPoint = path.First();
+        if (navmeshagent.agentTypeID == navMeshSurface.agentTypeID)
             navmeshagent.Warp(startPoint);
-        transform.rotation = GetForwardDirection();
+        transform.LookAt(path[1]);
+        if (moveCoroutine != null) StopCoroutine(moveCoroutine);
+        moveCoroutine = StartCoroutine(MoveToPath(path, isCircle));
     }
 
-    private Quaternion GetForwardDirection()
+    IEnumerator MoveToPath(IList<Vector3> path, bool isCircle)
     {
-        var firstPos = originalPath.First();
-        var secondPos = originalPath[1];
-        var direction = (secondPos - firstPos).normalized;
-        var targetRotation = Quaternion.LookRotation(direction);
-        return targetRotation;
-    }
-
-    private Vector3 GetNextDirection()
-    {
-        if (pathPoints.Count > 1)
+        var points = path.ToList();
+        while (true)
         {
-            Vector3[] pointsArray = pathPoints.ToArray();
-            return (pointsArray[1] - pointsArray[0]).normalized;
+            for (int i = 0; i < points.Count; i++)
+            { 
+                var nextPoint = points[i];
+                navmeshagent.SetDestination(nextPoint);
+                yield return new WaitUntil(() => !navmeshagent.pathPending); // 等待路径计算完成
+                yield return new WaitUntil(() => navmeshagent.remainingDistance <= 0.5f);
+            }
+            if (!isCircle) points.Reverse();
         }
-        return transform.forward;
+        moveCoroutine = null;
     }
 
-    private Vector3 ApplyOffset(Vector3 point, Vector3 direction)
+    void Update()
     {
-        Vector3 offset = Vector3.Cross(direction, Vector3.up).normalized * roadOffSet;
-        return point + offset;
+        // 手动更新车辆的朝向
+        if (navmeshagent.velocity.sqrMagnitude > 0.1f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(navmeshagent.velocity.normalized);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
     }
 
-    private bool ShouldSetNextCheckPoint()
+    void OnDrawGizmos()
     {
-        var hasPathPoints = pathPoints.Count > 0;
-        var hasPath = navmeshagent.hasPath;
-        var isClose = navmeshagent.remainingDistance < 0.5f;
-        return hasPathPoints && (!hasPath || isClose);
+        if (navmeshagent != null && navmeshagent.hasPath)
+        {
+            Gizmos.color = Color.green;
+            var path = navmeshagent.path;
+            for (int i = 0; i < path.corners.Length - 1; i++)
+            {
+                Gizmos.DrawLine(path.corners[i], path.corners[i + 1]);
+            }
+        }
     }
 }
