@@ -29,6 +29,7 @@ public class PathMover : MonoBehaviour
         var startPoint = path.First();
         if (navmeshagent.agentTypeID == navMeshSurface.agentTypeID)
             navmeshagent.Warp(startPoint);
+        if (path.Count < 2) return;
         transform.LookAt(path[1]);
         if (moveCoroutine != null) StopCoroutine(moveCoroutine);
         moveCoroutine = StartCoroutine(MoveToPath(path, isCircle));
