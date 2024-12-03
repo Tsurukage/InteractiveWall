@@ -8,6 +8,13 @@ public class AppSetting
     public bool CircuitIsRoad = false;
     public float DrawingPadAlign = 0;
     public bool GenerateCutPathOnError = true;
+    public int DrawingPadScale = 0;
+
+    public const float DrawingPadUi_Size = 150;
+    public float GetDrawingPadScale()
+    {
+        return (App.Setting.DrawingPadScale + DrawingPadUi_Size) / DrawingPadUi_Size;
+    }
 }
 public class AppLaunch : MonoBehaviour
 {
@@ -33,7 +40,7 @@ public class AppLaunch : MonoBehaviour
             UiManager.Init();
             world.Init();
             var controller = App.GetController<GameController>();
-            controller.AlignDrawingPad();
+            controller.UpdateDrawingPad();
             UiManager.StartSettings();
         }
     }

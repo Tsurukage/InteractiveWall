@@ -90,6 +90,8 @@ namespace GMVC.Core
             if (coroutine == null) return;
             _monoService.StopCoroutine(coroutine);
         }
+        public static Coroutine StartCoService(IEnumerator coroutine) => _monoService.StartCoroutine(coroutine);
+
         public static void Pause(bool pause)
         {
             if (pause)

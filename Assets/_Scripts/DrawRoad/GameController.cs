@@ -5,11 +5,21 @@ using UnityEngine;
 public class GameController : IController
 {
     World World => App.World;
-    public void DrawingUi(bool up)
+    public void DrawingUiHeightAlign(bool up)
     {
         App.Setting.DrawingPadAlign += up ? 10 : -10;
         SaveSettings();
-        AlignDrawingPad();
+        UpdateDrawingPad();
+    }
+    public void DrawingUiScale(bool up)
+    {
+        var value = App.Setting.DrawingPadScale + (up ? 10 : -10);
+        //default is 150 max 200 min 150
+        if (value < 0) return;
+        if (value > 50) return;
+        App.Setting.DrawingPadScale = value;
+        SaveSettings();
+        UpdateDrawingPad();
     }
 
     public void StartGame()
@@ -17,9 +27,13 @@ public class GameController : IController
         World.StartGame();
     }
 
-    public void AlignDrawingPad()
+    public void UpdateDrawingPad()
     {
         App.SendEvent(App.DrawingBoard_Align);
+    }
+
+    public void AlignDrawingPad()
+    {
         World.AlignDrawingBoard();
     }
 
@@ -37,7 +51,7 @@ public class GameController : IController
     {
         App.Setting.DrawingPadAlign = 0;
         SaveSettings();
-        AlignDrawingPad();
+        UpdateDrawingPad();
     }
     static void SaveSettings()
     {

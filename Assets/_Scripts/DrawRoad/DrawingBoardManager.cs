@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+using GMVC.Core;
 using GMVC.Utls;
 using GMVC.Views;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 using Utls;
@@ -66,7 +68,7 @@ public class DrawingBoardManager : MonoBehaviour
         roadDrawer.OnStartDraw(hit.point);
     }
 
-    [Sirenix.OdinInspector.Button]public void GetUiElements()
+    [Button]public void GetUiElements()
     {
         var rects = new List<RectTransform>();
         foreach (Transform t in layoutGroup.transform)
@@ -100,8 +102,9 @@ public class DrawingBoardManager : MonoBehaviour
     }
 
     // 对齐画板和UI框
-    public void AlignBoardsWithUI()
+    [Button]public void AlignBoardsWithUI()
     {
+        AlignScale();
         for (var i = 0; i < uiFrames.Length; i++)
         {
             // 获取画板和对应的UI框
@@ -109,9 +112,17 @@ public class DrawingBoardManager : MonoBehaviour
             var uiFrame = uiFrames[i];
 
             // 将画板的位置对齐到UI框的位置
-            var screenPos = uiFrame.position;
-            var worldPos = DrawingCam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, 0)); // 根据需要调整Z值
+            //var screenPos = uiFrame.position;
+            //var worldPos = DrawingCam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, 0)); // 根据需要调整Z值
             board.transform.position = uiFrame.position;
         }
+        AlignScale();
+    }
+
+    void AlignScale()
+    {
+        var scale = App.Setting.GetDrawingPadScale();
+        foreach (var board in drawingBoards) 
+            board.transform.localScale = (Vector3.one * scale).ChangeY(1);
     }
 }
