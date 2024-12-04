@@ -51,8 +51,8 @@ public class Page_Settings : PageUiBase
         Button btn_x;
         Button btn_uiUp;
         Button btn_uiDown;
-        Button btn_uiScaleUp;
-        Button btn_uiScaleDown;
+        //Button btn_uiScaleUp;
+        //Button btn_uiScaleDown;
         Button btn_reset;
         Toggle toggle_road;
         Toggle toggle_errorCut;
@@ -64,8 +64,8 @@ public class Page_Settings : PageUiBase
             btn_x = v.Get<Button>("btn_x");
             btn_uiUp = v.Get<Button>("btn_uiUp");
             btn_uiDown = v.Get<Button>("btn_uiDown");
-            btn_uiScaleUp = v.Get<Button>("btn_uiScaleUp");
-            btn_uiScaleDown = v.Get<Button>("btn_uiScaleDown");
+            //btn_uiScaleUp = v.Get<Button>("btn_uiScaleUp");
+            //btn_uiScaleDown = v.Get<Button>("btn_uiScaleDown");
             toggle_road = v.Get<Toggle>("toggle_road");
             toggle_errorCut = v.Get<Toggle>("toggle_errorCut");
             btn_reset = v.Get<Button>("btn_reset");
@@ -79,8 +79,8 @@ public class Page_Settings : PageUiBase
             });
             btn_uiUp.onClick.AddListener(() => GameController.DrawingUiHeightAlign(true));
             btn_uiDown.onClick.AddListener(() => GameController.DrawingUiHeightAlign(false));
-            btn_uiScaleUp.onClick.AddListener(() => GameController.DrawingUiScale(true));
-            btn_uiScaleDown.onClick.AddListener(() => GameController.DrawingUiScale(false));
+            //btn_uiScaleUp.onClick.AddListener(() => GameController.DrawingUiScale(true));
+            //btn_uiScaleDown.onClick.AddListener(() => GameController.DrawingUiScale(false));
         }
 
         public void Settings_Update()

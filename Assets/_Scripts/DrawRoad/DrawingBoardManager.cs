@@ -101,10 +101,9 @@ public class DrawingBoardManager : MonoBehaviour
         }
     }
 
-    // 对齐画板和UI框
     [Button]public void AlignBoardsWithUI()
     {
-        AlignScale();
+        //AlignScale();
         for (var i = 0; i < uiFrames.Length; i++)
         {
             // 获取画板和对应的UI框
@@ -116,13 +115,13 @@ public class DrawingBoardManager : MonoBehaviour
             //var worldPos = DrawingCam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, 0)); // 根据需要调整Z值
             board.transform.position = uiFrame.position;
         }
-        AlignScale();
+        //AlignScale();
     }
 
-    void AlignScale()
-    {
-        var scale = App.Setting.GetDrawingPadScale();
-        foreach (var board in drawingBoards) 
-            board.transform.localScale = (Vector3.one * scale).ChangeY(1);
-    }
+    //void AlignScale()
+    //{
+    //    var scale = App.Setting.GetDrawingPadScale();
+    //    foreach (var board in drawingBoards) 
+    //        board.transform.localScale = (Vector3.one * scale).ChangeY(1);
+    //}
 }

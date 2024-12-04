@@ -39,13 +39,13 @@ public class Page_Main : PageUiBase
         public void UiAlign(DataBag bag)
         {
             local ??= Rect.localPosition;
-            var size = AppSetting.DrawingPadUi_Size + App.Setting.DrawingPadScale;
-            foreach (var pad in drawingPads)
-            {
-                pad.Display(false);
-                pad.RectTransform.sizeDelta = new Vector2(size, size);
-                pad.Display(true);
-            }
+            //var size = AppSetting.DrawingPadUi_Size + App.Setting.DrawingPadScale;
+            //foreach (var pad in drawingPads)
+            //{
+            //    pad.Display(false);
+            //    pad.RectTransform.sizeDelta = new Vector2(size, size);
+            //    pad.Display(true);
+            //}
             Rect.localPosition = local.Value.ChangeY(local.Value.y + App.Setting.DrawingPadAlign);
             StartCoroutine(UpdateOnNextFrame());
         }

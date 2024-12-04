@@ -11,16 +11,16 @@ public class GameController : IController
         SaveSettings();
         UpdateDrawingPad();
     }
-    public void DrawingUiScale(bool up)
-    {
-        var value = App.Setting.DrawingPadScale + (up ? 10 : -10);
-        //default is 150 max 200 min 150
-        if (value < 0) return;
-        if (value > 50) return;
-        App.Setting.DrawingPadScale = value;
-        SaveSettings();
-        UpdateDrawingPad();
-    }
+    //public void DrawingUiScale(bool up)
+    //{
+    //    var value = App.Setting.DrawingPadScale + (up ? 10 : -10);
+    //    //default is 150 max 200 min 150
+    //    if (value < 0) return;
+    //    if (value > 50) return;
+    //    App.Setting.DrawingPadScale = value;
+    //    SaveSettings();
+    //    UpdateDrawingPad();
+    //}
 
     public void StartGame()
     {
