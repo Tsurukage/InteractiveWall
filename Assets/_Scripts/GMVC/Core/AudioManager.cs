@@ -63,7 +63,7 @@ namespace GMVC.Core
 
         public void MuteAll(bool mute)
         {
-            bgm.mute = mute;
+            if(bgm) bgm.mute = mute;
             foreach (var fx in sfx) 
                 fx.mute = mute;
         }
