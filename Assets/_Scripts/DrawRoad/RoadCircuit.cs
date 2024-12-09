@@ -9,7 +9,6 @@ using Utls;
 public class RoadCircuit : MonoBehaviour
 {
     public RoadGenerator RoadGenerator { get; private set; }
-    public NavMeshSurface MeshSurface;
     public LineRenderer LineRenderer;
     public PathMover CarCalled;
     public List<Vector3> Path { get; set; } = new();
@@ -26,7 +25,6 @@ public class RoadCircuit : MonoBehaviour
         for (var i = 0; i < LineRenderer.positionCount; i++) 
             Path.Add(LineRenderer.GetPosition(i));
         if (App.Setting.CircuitIsRoad) RoadGenerator.GenerateRoad(info.Index, Path);
-        CarCalled.transform.SetParent(MeshSurface.transform);
         CarCalled.transform.localPosition = CarCalled.transform.localPosition.ChangeY(0);
         CarCalled.SetPoint(Path,info.IsCycle);
     }
