@@ -1,14 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.AI.Navigation;
 using UnityEngine;
-using UnityEngine.AI;
 using Utls;
-using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 
 public class PathMover : MonoBehaviour
 {
@@ -41,7 +34,7 @@ public class PathMover : MonoBehaviour
         isMoving = true;
         var index = 1; // start from second point
         var direction = 1; // 1: forward，-1: backward
-
+        var iterationCount = 0; // limit on iteration
         while (isMoving)
         {
             var targetPoint = currentPath[index];
@@ -73,6 +66,13 @@ public class PathMover : MonoBehaviour
                     direction *= -1; // backward
                     index += direction * 2; // adjust index
                 }
+            }
+            
+            iterationCount++;
+            if (iterationCount >= 9999)
+            {
+                // stop after 9999 iterations
+                isMoving = false;
             }
         }
     }
