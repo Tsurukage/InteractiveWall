@@ -50,6 +50,13 @@ public class PathMover : MonoBehaviour
                 var targetRotation = Quaternion.LookRotation(directionToTarget);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
+                iterationCount++;
+                if (iterationCount >= 9999)
+                {
+                    "iterationCount >= 9999 in Vector3.Distance(transform.position, targetPoint) > 0.1f".Log(this, LogType.Warning);
+                    // stop after 9999 iterations
+                    isMoving = false;
+                }
                 yield return null;
             }
 
@@ -71,6 +78,7 @@ public class PathMover : MonoBehaviour
             iterationCount++;
             if (iterationCount >= 9999)
             {
+                "iterationCount >= 9999 in while (isMoving)".Log(this, LogType.Warning);
                 // stop after 9999 iterations
                 isMoving = false;
             }
