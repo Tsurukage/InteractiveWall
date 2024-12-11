@@ -43,8 +43,19 @@ public class PathMover : MonoBehaviour
                 // cal direction
                 var directionToTarget = (targetPoint - transform.position).normalized;
 
+                var distance = directionToTarget.magnitude;
+                directionToTarget.Normalize();
+                var step = moveSpeed * Time.deltaTime;
+
+                // if next step will exceed the distance, set to target point
+                if (step >= distance)
+                {
+                    transform.position = targetPoint;
+                    break;
+                }
+
                 // move
-                transform.position += directionToTarget * moveSpeed * Time.deltaTime;
+                transform.position += directionToTarget * step;
 
                 // rotate
                 var targetRotation = Quaternion.LookRotation(directionToTarget);
